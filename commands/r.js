@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { DiceRoll } = require('@dice-roller/rpg-dice-roller');
+const utils = require('../utils.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -13,6 +14,6 @@ module.exports = {
 		const rollType = interaction.options.getString('类型');
 		const roll = new DiceRoll(rollType);
 		// string[] /d/.split(rollType);
-		await interaction.reply(`骰子结果：${roll.toString()}`);
+		await interaction.reply(`骰子结果：${utils.discordEscape(roll.toString())}`);
 	},
 };
