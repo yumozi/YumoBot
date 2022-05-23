@@ -17,16 +17,16 @@ module.exports = {
 		const rollResult = Math.floor(Math.random() * 100) + 1;
 
 		if (rollResult <= 5) {
-			await interaction.reply(`检定结果：${rollResult}/${successRate}, ${skill}大成功!`);
+			await interaction.reply(`检定结果: ${rollResult}/${successRate}, ${skill}大成功!`);
 		}
 		else if (rollResult <= successRate) {
-			await interaction.reply(`检定结果：${rollResult}/${successRate}, ${skill}成功!`);
+			await interaction.reply(`检定结果: ${rollResult}/${successRate}, ${skill}成功!`);
 		}
 		else if (rollResult >= 95) {
-			await interaction.reply(`检定结果：${rollResult}/${successRate}, ${skill}大失败!`);
+			await interaction.reply(`检定结果: ${rollResult}/${successRate}, ${skill}大失败!`);
 		}
 		else {
-			await interaction.reply(`检定结果：${rollResult}/${successRate}, ${skill}失败!`);
+			await interaction.reply(`检定结果: ${rollResult}/${successRate}, ${skill}失败!`);
 		}
 	},
 };
