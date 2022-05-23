@@ -13,7 +13,6 @@ module.exports = {
 	async execute(interaction) {
 		const rollType = interaction.options.getString('类型');
 		const roll = new DiceRoll(rollType);
-		// string[] /d/.split(rollType);
 		await interaction.reply(`骰子结果：${utils.discordEscape(roll.toString())}`);
 	},
 };
