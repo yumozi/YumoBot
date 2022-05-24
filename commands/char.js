@@ -2,8 +2,8 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('st')
-		.setDescription('人物设置')
+		.setName('char')
+		.setDescription('PC状态设置')
 		.addStringOption(option =>
 			option.setName('姓名')
 				.setDescription('姓名')
