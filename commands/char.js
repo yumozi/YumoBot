@@ -21,6 +21,6 @@ module.exports = {
 		const health = interaction.options.getString('体力');
 		const san = interaction.options.getString('理智');
 		await interaction.member.setNickname(`${name} (HP:${health}/${health} san:${san}/${san})`);
-		await interaction.reply('设置成功!');
+		await interaction.reply('PC状态设置成功!');
 	},
 };
