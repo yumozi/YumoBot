@@ -1,11 +1,10 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { writeSt } = require('../db.js');
 
-const mongo = require('mongodb').MongoClient
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://user:user@cluster0.fdrnt.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-
-
+const regexDigit = /[0-9]/;
+const regexAllDigits = /[0-9]/g;
+const regexNonDigit = /\D/;
+const regexAllNonDigits = /\D/g;
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -17,12 +16,12 @@ module.exports = {
 				.setRequired(true)),
 	async execute(interaction) {
         let input = interaction.options.getString('属性');
-		let inputs = [];
+		var arrCharacterInfo = [];
 
 		let i = 0;
 		while (i < input.length - 1) {
-			if (/[0-9]/.test(input[i]) && /\D/.test(input[i+1])) {
-				inputs.push(input.slice(0, i + 1));
+			if (regexDigit.test(input[i]) && regexNonDigit.test(input[i+1])) {
+				arrCharacterInfo.push(input.slice(0, i + 1));
 				input = input.slice(i + 1);
 				i = 0;
 			}
@@ -30,28 +29,19 @@ module.exports = {
 				i += 1;
 			}
 		}
-		console.log(inputs)
 
-		id = interaction.member.id;
-
-
-		client.connect(err => {
-			const collection = client.db("test").collection("devices");
-
-			collection.insertOne({ id: 'Test', age: '30', stats: inputs}, ((error, item) => {
-				if(error) {
-				 console.error(error)
-				 return
-				}
-				 console.log(inputs)
-			}))
-
-
-
-			client.close();
+		var jsonCharacterInfo = {};
+		arrCharacterInfo.forEach(function(data)
+		{
+			var fieldName = data.match(regexAllNonDigits).join('');
+			var fieldData = parseInt(data.match(regexAllDigits).join(''));
+			jsonCharacterInfo[fieldName] = fieldData;
 		});
 
+		id = writeSt(jsonCharacterInfo);
 
-		await interaction.reply('uploaded');
+		console.log(id);
+
+		await interaction.reply(`${interaction.member.nickname}的角色保存成功, id: ${id}`);
 	},
 };
