@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { readSt } = require('../db.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -13,8 +14,13 @@ module.exports = {
 				.setDescription('技能')),
 	async execute(interaction) {
 		const skill = interaction.options.getString('技能');
-		const successRate = interaction.options.getInteger('成功率');
 		const rollResult = Math.floor(Math.random() * 100) + 1;
+
+		var successRate = writeSt(interaction.guildId, interaction.user.id, skill)
+		if (successRate == null) {
+			successRate = interaction.options.getInteger('成功率');
+		}
+
 
 		if (skill != null) {
 			if (rollResult <= 5) {

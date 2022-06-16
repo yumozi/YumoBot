@@ -30,7 +30,11 @@ module.exports = {
 			}
 		}
 
-		var jsonCharacterInfo = {};
+		var jsonCharacterInfo = {
+			"guild_id": interaction.guildId,
+			"user": interaction.user.id
+		};
+
 		arrCharacterInfo.forEach(function(data)
 		{
 			var fieldName = data.match(regexAllNonDigits).join('');
@@ -39,8 +43,6 @@ module.exports = {
 		});
 
 		id = writeSt(jsonCharacterInfo);
-
-		console.log(id);
 
 		await interaction.reply(`${interaction.member.nickname}的角色保存成功, id: ${id}`);
 	},
