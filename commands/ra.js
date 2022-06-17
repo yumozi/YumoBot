@@ -5,22 +5,23 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ra')
 		.setDescription('进行ra检定')
-		.addIntegerOption(option =>
-			option.setName('成功率')
-				.setDescription('成功率')
-				.setRequired(true))
 		.addStringOption(option =>
 			option.setName('技能')
-				.setDescription('技能')),
+				.setDescription('技能')
+				.setRequired(true))
+		.addIntegerOption(option =>
+			option.setName('成功率')
+				.setDescription('成功率')),
+
 	async execute(interaction) {
 		const skill = interaction.options.getString('技能');
 		const rollResult = Math.floor(Math.random() * 100) + 1;
+		var successRate = interaction.options.getInteger('成功率');
 
-		var successRate = writeSt(interaction.guildId, interaction.user.id, skill)
-		if (successRate == null) {
-			successRate = interaction.options.getInteger('成功率');
+		// if no success rate specified, try to fetch database
+		if (successRate == null) { 
+			successRate = await readSt(interaction.guildId, interaction.user.id, skill);
 		}
-
 
 		if (skill != null) {
 			if (rollResult <= 5) {

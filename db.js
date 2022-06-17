@@ -18,21 +18,29 @@ async function readSt(guildId, userId, skill) {
 
     connection.then(() => {
         const collection = client.db("userData").collection("characters");
-        const characters = collection.find(
-            {"guild_id" : guildId,
-             "user" : userId}
+        const characterCursor = collection.find(
+            {guild_id: guildId,
+             user: userId}
         );
 
+        console.log(guildId);
+        console.log(userId);
 
-
-
-        const result = collection.insertOne(data);
-        console.log(result.insertedId);
-        return result.insertedId;
+        if (characterCursor.hasNext()) {
+            const character = characterCursor.next();
+            console.log(character);
+            console.log(character[skill]);
+        }
+        else {
+            console.log("Failed to retrieve data!")
+        }
+        
+        return null;
     });
 
 }
 
 module.exports = {
-    writeSt
+    writeSt,
+    readSt
 }
